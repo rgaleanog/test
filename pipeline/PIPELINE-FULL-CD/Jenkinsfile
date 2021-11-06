@@ -1,0 +1,44 @@
+ pipeline {
+    agent any
+    stages {
+        stage('Stage 1: Staging'){
+            steps {
+                build job: 'PIPELINE-FULL-STAGING', parameters: [
+                    string(name: 'COUNTRY', value: "es"),
+                    string(name: 'TEAM', value: "unir"),
+                    string(name: 'ENVIRONMENT', value: "staging"),
+                    string(name: 'SERVICE', value: "s3"),
+                    string(name: 'STACK_NAME', value: "todo-list-serverless"),
+                ]
+            }
+        }
+        stage('Stage 2: Git merge'){
+            steps{
+                sh('git checkout master')
+                sh('git merge origin/develop')
+                sh('git push --set-upstream origin master') 
+            }
+        }
+        stage('Stage 3: Production'){
+            steps {
+                build job: 'PIPELINE-FULL-PRODUCTION', parameters: [
+                    string(name: 'COUNTRY', value: "es"),
+                    string(name: 'TEAM', value: "unir"),
+                    string(name: 'ENVIRONMENT', value: "production"),
+                    string(name: 'SERVICE', value: "s3"),
+                    string(name: 'STACK_NAME', value: "todo-list-serverless"),
+                ]
+            }
+        }
+        stage('Stage 6: Clean up'){
+            steps{
+              deleteDir()
+            }
+        }
+    }
+    post {
+        failure {
+            echo 'Bad news!!'
+        }
+    }
+}

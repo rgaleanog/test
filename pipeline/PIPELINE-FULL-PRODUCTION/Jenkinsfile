@@ -1,0 +1,43 @@
+ pipeline {
+    agent any
+    stages {
+        stage('Stage 1: Setup'){
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'bash todo-list-aws/pipeline/PIPELINE-FULL-PRODUCTION/1-setup.sh'
+                }
+            }
+        }
+        stage('Stage 3: Build'){
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                   sh 'bash todo-list-aws/pipeline/PIPELINE-FULL-PRODUCTION/2-package.sh'
+                }
+            }
+        }
+        stage('Stage 4: Deploy'){
+            steps{
+                    sh 'bash todo-list-aws/pipeline/PIPELINE-FULL-PRODUCTION/3-deploy.sh'
+            }
+        }
+        stage('Stage 5: Integration Test'){
+            steps{
+                sh 'bash todo-list-aws/pipeline/PIPELINE-FULL-PRODUCTION/4-integration.sh'
+            }
+        }
+        stage('Stage 6: Clean up'){
+            steps{
+              deleteDir()
+            }
+        }
+    }
+    post {
+        // always{
+        //     sh "docker rm -f dynamodb"
+        // }
+        failure {
+            echo 'Bad news!!'
+            //deleteDir()
+        }
+    }
+}

@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    stages {
+        // Limpieza del entorno ante ejecuciones previas
+        stage('Clean'){    
+            steps {
+                deleteDir()
+                sh 'printenv'
+            }
+        }
+        // Configuración de las credenciales temporales de la cuenta educate
+        stage('Setup Credentials'){    
+            steps {
+                deleteDir()
+                sh "echo ${env.CREDENTIALS} > /var/lib/jenkins/.aws/credentials"
+                writeFile (file: '/var/lib/jenkins/.aws/credentials', text: "${env.CREDENTIALS}")
+
+            }
+        }
+        // Validación de las credenciales temporales haciendo una petición a la API de aws a través del aws cli
+        stage('Validate Credentials'){    
+            steps {
+                deleteDir()
+                sh "aws s3 ls"
+            }
+        }
+        // Validación del software instalado en el servicio
+        stage('Validate software'){    
+            steps {
+                sh 'sam --version'
+                sh 'aws --version'
+                sh 'python3.8 --version'
+            }
+        }
+    }
+}
