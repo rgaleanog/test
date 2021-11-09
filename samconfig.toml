@@ -3,7 +3,7 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "todo-list-aws"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-s9z9yg9le35d"
+s3_bucket = "serverless-http-api-dyna-serverlessdeploymentbuck-3zghosk6sk4l"
 s3_prefix = "todo-list-aws"
 region = "us-east-1"
 confirm_changeset = false
@@ -14,7 +14,7 @@ parameter_overrides = "Stage=\"default\""
 [staging.deploy]
 [staging.deploy.parameters]
 stack_name = "todolist-stg"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-s9z9yg9le35d"
+s3_bucket = "serverless-http-api-dyna-serverlessdeploymentbuck-3zghosk6sk4l"
 s3_prefix = "todolist-stg"
 region = "us-east-1"
 confirm_changeset = true
@@ -27,7 +27,7 @@ parameter_overrides = "Stage=\"staging\""
 [production.deploy]
 [production.deploy.parameters]
 stack_name = "todolist-pro"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-s9z9yg9le35d"
+s3_bucket = "serverless-http-api-dyna-serverlessdeploymentbuck-3zghosk6sk4l"
 s3_prefix = "todolist-pro"
 region = "us-east-1"
 confirm_changeset = true

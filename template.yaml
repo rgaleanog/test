@@ -31,28 +31,13 @@ Resources:
       CodeUri: src/
       Handler: create.create
       Runtime: python3.8
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Role: arn:aws:iam::501043071668:role/LabRole
       Events:
         Create:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /todos
             Method: post
-      Policies:
-        - Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - 'dynamodb:PutItem'
-              Resource:
-                'Fn::Join':
-                  - ''
-                  - - 'arn:aws:dynamodb:'
-                    - Ref: 'AWS::Region'
-                    - ':'
-                    - Ref: 'AWS::AccountId'
-                    - ':table/todosTable-'
-                    - Ref: Stage
 
   GetFunction:
     Type: AWS::Serverless::Function
@@ -60,28 +45,13 @@ Resources:
       CodeUri: src/
       Handler: get.get
       Runtime: python3.8
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Role: arn:aws:iam::501043071668:role/LabRole
       Events:
         Get:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /todos/{id}
             Method: get
-      Policies:
-        - Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - 'dynamodb:GetItem'
-              Resource:
-                'Fn::Join':
-                  - ''
-                  - - 'arn:aws:dynamodb:'
-                    - Ref: 'AWS::Region'
-                    - ':'
-                    - Ref: 'AWS::AccountId'
-                    - ':table/todosTable-'
-                    - Ref: Stage
 
   ListFunction:
     Type: AWS::Serverless::Function
@@ -89,28 +59,13 @@ Resources:
       CodeUri: src/
       Handler: list.list
       Runtime: python3.8
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Role: arn:aws:iam::501043071668:role/LabRole
       Events:
         List:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /todos
             Method: get
-      Policies:
-        - Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - 'dynamodb:Scan'
-              Resource:
-                'Fn::Join':
-                  - ''
-                  - - 'arn:aws:dynamodb:'
-                    - Ref: 'AWS::Region'
-                    - ':'
-                    - Ref: 'AWS::AccountId'
-                    - ':table/todosTable-'
-                    - Ref: Stage
 
   UpdateFunction:
     Type: AWS::Serverless::Function
@@ -118,28 +73,13 @@ Resources:
       CodeUri: src/
       Handler: update.update
       Runtime: python3.8
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Role: arn:aws:iam::501043071668:role/LabRole
       Events:
         Update:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /todos/{id}
             Method: put
-      Policies:
-        - Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - 'dynamodb:UpdateItem'
-              Resource:
-                'Fn::Join':
-                  - ''
-                  - - 'arn:aws:dynamodb:'
-                    - Ref: 'AWS::Region'
-                    - ':'
-                    - Ref: 'AWS::AccountId'
-                    - ':table/todosTable-'
-                    - Ref: Stage
 
   DeleteFunction:
     Type: AWS::Serverless::Function
@@ -147,28 +87,13 @@ Resources:
       CodeUri: src/
       Handler: delete.delete
       Runtime: python3.8
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Role: arn:aws:iam::501043071668:role/LabRole
       Events:
         Delete:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /todos/{id}
             Method: delete
-      Policies:
-        - Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - 'dynamodb:DeleteItem'
-              Resource:
-                'Fn::Join':
-                  - ''
-                  - - 'arn:aws:dynamodb:'
-                    - Ref: 'AWS::Region'
-                    - ':'
-                    - Ref: 'AWS::AccountId'
-                    - ':table/todosTable-'
-                    - Ref: Stage
 
   TranslateFunction:
     Type: AWS::Serverless::Function
@@ -176,34 +101,13 @@ Resources:
       CodeUri: src/
       Handler: translate.get
       Runtime: python3.8
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Role: arn:aws:iam::501043071668:role/LabRole
       Events:
         Get:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /todos/{id}/{language}
             Method: get
-      Policies:
-        - Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - 'dynamodb:GetItem'
-              Resource:
-                'Fn::Join':
-                  - ''
-                  - - 'arn:aws:dynamodb:'
-                    - Ref: 'AWS::Region'
-                    - ':'
-                    - Ref: 'AWS::AccountId'
-                    - ':table/todosTable-'
-                    - Ref: Stage
-            - Effect: Allow
-              Action:
-                - 'translate:TranslateText'
-                - 'comprehend:DetectDominantLanguage'
-                - 'comprehend:DetectSentiment'
-              Resource: '*'
 
   todosTable:
     Type: 'AWS::DynamoDB::Table'
@@ -222,42 +126,21 @@ Resources:
 
 
 Outputs:
-  TodosListApi:
-    Description: "API Gateway endpoint URL for Prod stage for TodosList function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
   CreateFunction:
     Description: "Create TODO Lambda Function ARN"
     Value: !GetAtt CreateFunction.Arn
-  CreateFunctionRole:
-    Description: "Implicit IAM Role Create TODO function"
-    Value: !GetAtt CreateFunctionRole.Arn
   GetFunction:
     Description: "Get TODO Function ARN"
     Value: !GetAtt GetFunction.Arn
-  GetFunctionRole:
-    Description: "Implicit IAM Role created for Get TODO function"
-    Value: !GetAtt GetFunctionRole.Arn
   ListFunction:
     Description: "List TODO Function ARN"
     Value: !GetAtt GetFunction.Arn
-  ListFunctionRole:
-    Description: "Implicit IAM Role created for List TODO function"
-    Value: !GetAtt GetFunctionRole.Arn
   UpdateFunction:
     Description: "Update TODO Function ARN"
     Value: !GetAtt UpdateFunction.Arn
-  UpdateFunctionRole:
-    Description: "Implicit IAM Role created for Update TODO function"
-    Value: !GetAtt UpdateFunctionRole.Arn
   DeleteFunction:
     Description: "Delete TODO Function ARN"
     Value: !GetAtt DeleteFunction.Arn
-  DeleteFunctionRole:
-    Description: "Implicit IAM Role created for Translate TODO function"
-    Value: !GetAtt DeleteFunctionRole.Arn
   TranslateFunction:
     Description: "Delete TODO Function ARN"
     Value: !GetAtt TranslateFunction.Arn
-  TranslateFunctionRole:
-    Description: "Implicit IAM Role created for Translate TODO function"
-    Value: !GetAtt TranslateFunctionRole.Arn
