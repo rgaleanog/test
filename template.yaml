@@ -31,10 +31,10 @@ Resources:
       CodeUri: src/
       Handler: create.create
       Runtime: python3.8
-      Role: arn:aws:iam::501043071668:role/LabRole
+      Role: arn:aws:iam::025379707399:role/LabRole
       Events:
         Create:
-          Type: HttpApi
+          Type: Api
           Properties:
             Path: /todos
             Method: post
@@ -45,10 +45,10 @@ Resources:
       CodeUri: src/
       Handler: get.get
       Runtime: python3.8
-      Role: arn:aws:iam::501043071668:role/LabRole
+      Role: arn:aws:iam::025379707399:role/LabRole
       Events:
         Get:
-          Type: HttpApi
+          Type: Api
           Properties:
             Path: /todos/{id}
             Method: get
@@ -59,10 +59,10 @@ Resources:
       CodeUri: src/
       Handler: list.list
       Runtime: python3.8
-      Role: arn:aws:iam::501043071668:role/LabRole
+      Role: arn:aws:iam::025379707399:role/LabRole
       Events:
         List:
-          Type: HttpApi
+          Type: Api
           Properties:
             Path: /todos
             Method: get
@@ -73,10 +73,10 @@ Resources:
       CodeUri: src/
       Handler: update.update
       Runtime: python3.8
-      Role: arn:aws:iam::501043071668:role/LabRole
+      Role: arn:aws:iam::025379707399:role/LabRole
       Events:
         Update:
-          Type: HttpApi
+          Type: Api
           Properties:
             Path: /todos/{id}
             Method: put
@@ -87,10 +87,10 @@ Resources:
       CodeUri: src/
       Handler: delete.delete
       Runtime: python3.8
-      Role: arn:aws:iam::501043071668:role/LabRole
+      Role: arn:aws:iam::025379707399:role/LabRole
       Events:
         Delete:
-          Type: HttpApi
+          Type: Api
           Properties:
             Path: /todos/{id}
             Method: delete
@@ -101,10 +101,10 @@ Resources:
       CodeUri: src/
       Handler: translate.get
       Runtime: python3.8
-      Role: arn:aws:iam::501043071668:role/LabRole
+      Role: arn:aws:iam::025379707399:role/LabRole
       Events:
         Get:
-          Type: HttpApi
+          Type: Api
           Properties:
             Path: /todos/{id}/{language}
             Method: get
